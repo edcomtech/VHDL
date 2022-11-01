@@ -1,0 +1,40 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity project_unit_3 is
+port(
+-- inputs
+a,b,selector : in std_logic_vector (1 downto 0);
+-- outputs
+segments : out std_logic_vector (7 downto 0);
+display : out std_logic_vector (3 downto 0)
+);
+end project_unit_3;
+
+architecture beh1 of project_unit_3 is
+signal x,y,z : std_logic_vector(7 downto 0);
+begin
+-- comparison
+process (a,b)
+begin if (a>b) then x<="00010001";
+elsif (a<b) then x<="11000001";
+else x<="01100011";
+end if;
+end process;
+-- a value
+y<=x"03" when (a="00") else --0
+x"9F" when (a="01") else --1
+x"25" when (a="10") else --2
+X"0D"; --3
+-- b value
+z<=x"03" when (a="00") else --0
+x"9F" when (a="01") else --1
+x"25" when (a="10") else --2
+X"0D"; --3
+-- multiplexor
+segments<=x when (selector="11") else --comparison
+y when (a="10") else --a value
+z when (a="01") else --b value
+x"FF";
+display<="1110";
+end beh1;
